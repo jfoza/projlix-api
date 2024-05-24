@@ -38,7 +38,7 @@ class ShowAdminUserBusinessTest extends UnitBaseTestCase
         $showAdminUserBusiness = $this->getShowAdminUserBusiness();
 
         $showAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_VIEW->value])
+            new Policy([RulesEnum::ADMIN_USERS_VIEW->value])
         );
 
         $this
@@ -56,7 +56,7 @@ class ShowAdminUserBusinessTest extends UnitBaseTestCase
         $showAdminUserBusiness = $this->getShowAdminUserBusiness();
 
         $showAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_VIEW->value])
+            new Policy([RulesEnum::ADMIN_USERS_VIEW->value])
         );
 
         $this

@@ -60,7 +60,7 @@ class CreateAdminUserBusinessTest extends UnitBaseTestCase
         $createAdminUserBusiness = $this->getCreateAdminUserBusiness();
 
         $createAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_INSERT->value])
+            new Policy([RulesEnum::ADMIN_USERS_INSERT->value])
         );
 
         $this
@@ -88,7 +88,7 @@ class CreateAdminUserBusinessTest extends UnitBaseTestCase
         $createAdminUserBusiness = $this->getCreateAdminUserBusiness();
 
         $createAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_INSERT->value])
+            new Policy([RulesEnum::ADMIN_USERS_INSERT->value])
         );
 
         $this

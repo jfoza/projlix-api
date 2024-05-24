@@ -13,6 +13,7 @@ return [
     \App\Features\Auth\Providers\AuthProvider::class,
     \App\Features\User\Rules\Providers\RulesProviders::class,
     \App\Features\User\Users\Providers\UsersProviders::class,
+    \App\Features\User\Profiles\Providers\ProfilesProviders::class,
     \App\Features\User\AdminUsers\Providers\AdminUsersProviders::class,
     \App\Features\User\Profiles\Providers\ProfilesProviders::class,
     \App\Features\General\Positions\Providers\PositionsProviders::class,

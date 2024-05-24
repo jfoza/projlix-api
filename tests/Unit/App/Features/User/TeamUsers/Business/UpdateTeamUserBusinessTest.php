@@ -61,7 +61,7 @@ class UpdateTeamUserBusinessTest extends UnitBaseTestCase
     public function setUserDto(): void
     {
         $this->userDTOMock->id = Uuid::uuid4Generate();
-        $this->userDTOMock->namel = 'John Doe';
+        $this->userDTOMock->name = 'John Doe';
         $this->userDTOMock->email = 'john-doe@email.com';
         $this->userDTOMock->profileId = Uuid::uuid4Generate();
         $this->userDTOMock->projectsId = [];
@@ -83,6 +83,8 @@ class UpdateTeamUserBusinessTest extends UnitBaseTestCase
     {
         $projects = ProjectMocks::getAllProjects();
 
+        $profileInPayload = ProfileMocks::getProjectMember();
+
         $teamUser = UserMocks::showTeamUser(
             null,
             null,
@@ -96,6 +98,7 @@ class UpdateTeamUserBusinessTest extends UnitBaseTestCase
             ->setProjects($teamUser->projects);
 
         $this->userDTOMock->projectsId = $projects->pluck(Project::ID)->toArray();
+        $this->userDTOMock->profileId  = $profileInPayload->id;
 
         $updateTeamUserBusiness = $this->getUpdateTeamUserBusiness();
 

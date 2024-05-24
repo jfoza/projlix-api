@@ -59,7 +59,7 @@ class FindAllAdminUsersBusinessTest extends UnitBaseTestCase
         $findAllAdminUsersBusiness = $this->getFindAllAdminUsersBusiness();
 
         $findAllAdminUsersBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_VIEW->value])
+            new Policy([RulesEnum::ADMIN_USERS_VIEW->value])
         );
 
         $this
@@ -77,7 +77,7 @@ class FindAllAdminUsersBusinessTest extends UnitBaseTestCase
         $findAllAdminUsersBusiness = $this->getFindAllAdminUsersBusiness();
 
         $findAllAdminUsersBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_VIEW->value])
+            new Policy([RulesEnum::ADMIN_USERS_VIEW->value])
         );
 
         $this->usersFiltersDTOMock->paginationOrder = new PaginationOrder();

@@ -28,7 +28,7 @@ class UpdateAdminUserBusiness extends Business implements UpdateAdminUserBusines
      */
     public function handle(UserDTO $userDTO): SavedAdminUserResponse
     {
-        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_ADMIN_MASTER_UPDATE->value);
+        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_UPDATE->value);
 
         if(!$adminUser = $this->adminUsersRepository->findByUserId($userDTO->id))
         {

@@ -31,7 +31,7 @@ class CreateAdminUserBusiness extends Business implements CreateAdminUserBusines
      */
     public function handle(UserDTO $userDTO): SavedAdminUserResponse
     {
-        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_ADMIN_MASTER_INSERT->value);
+        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_INSERT->value);
 
         UsersValidations::emailAlreadyExists($userDTO->email, $this->usersRepository);
 
@@ -48,7 +48,7 @@ class CreateAdminUserBusiness extends Business implements CreateAdminUserBusines
 
             $adminMasterProfile = $this
                 ->profilesRepository
-                ->findByUniqueName(ProfileUniqueNameEnum::ADMIN_MASTER->value);
+                ->findByUniqueName(ProfileUniqueNameEnum::ADMIN_MASTER);
 
             $this->usersRepository->saveProfiles($userCreated->id, [$adminMasterProfile->id]);
 

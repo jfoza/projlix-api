@@ -10,15 +10,15 @@ class ProfileHierarchyValidations
 {
     public static function administrativeAuth(Collection $profiles): bool
     {
-        return (bool) $profiles->firstWhere(Profile::UNIQUE_NAME, ProfileUniqueNameEnum::ADMIN_MASTER->value);
+        return (bool) $profiles->firstWhere(Profile::UNIQUE_NAME, ProfileUniqueNameEnum::ADMIN_MASTER);
     }
 
     public static function operationAuth(Collection $profiles): bool
     {
         $profilesArr = [
-            ProfileUniqueNameEnum::PROJECT_MANAGER->value,
-            ProfileUniqueNameEnum::TEAM_LEADER->value,
-            ProfileUniqueNameEnum::PROJECT_MEMBER->value,
+            ProfileUniqueNameEnum::PROJECT_MANAGER,
+            ProfileUniqueNameEnum::TEAM_LEADER,
+            ProfileUniqueNameEnum::PROJECT_MEMBER,
         ];
 
         return (bool) $profiles

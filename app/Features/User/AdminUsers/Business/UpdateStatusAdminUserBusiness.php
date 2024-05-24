@@ -20,7 +20,7 @@ class UpdateStatusAdminUserBusiness extends Business implements UpdateStatusAdmi
      */
     public function handle(string $userId): object
     {
-        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_ADMIN_MASTER_UPDATE->value);
+        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_UPDATE->value);
 
         return $this->userUpdateStatusService->execute($userId);
     }

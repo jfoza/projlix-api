@@ -23,7 +23,7 @@ class FindAllAdminUsersBusiness extends Business implements FindAllAdminUsersBus
      */
     public function handle(UsersFiltersDTO $usersFiltersDTO): LengthAwarePaginator|Collection
     {
-        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_ADMIN_MASTER_VIEW->value);
+        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_VIEW->value);
 
         return $this->adminUsersRepository->findAll($usersFiltersDTO);
     }

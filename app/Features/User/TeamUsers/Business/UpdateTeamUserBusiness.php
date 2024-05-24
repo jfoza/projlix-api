@@ -68,9 +68,9 @@ class UpdateTeamUserBusiness extends Business implements UpdateTeamUserBusinessI
         $this->profileHierarchyValidation(
             $this->profile->unique_name,
             [
-                ProfileUniqueNameEnum::PROJECT_MANAGER->value,
-                ProfileUniqueNameEnum::TEAM_LEADER->value,
-                ProfileUniqueNameEnum::PROJECT_MEMBER->value,
+                ProfileUniqueNameEnum::PROJECT_MANAGER,
+                ProfileUniqueNameEnum::TEAM_LEADER,
+                ProfileUniqueNameEnum::PROJECT_MEMBER,
             ]
         );
 
@@ -87,8 +87,8 @@ class UpdateTeamUserBusiness extends Business implements UpdateTeamUserBusinessI
         $this->profileHierarchyValidation(
             $this->profile->unique_name,
             [
-                ProfileUniqueNameEnum::TEAM_LEADER->value,
-                ProfileUniqueNameEnum::PROJECT_MEMBER->value,
+                ProfileUniqueNameEnum::TEAM_LEADER,
+                ProfileUniqueNameEnum::PROJECT_MEMBER,
             ]
         );
 
@@ -162,7 +162,7 @@ class UpdateTeamUserBusiness extends Business implements UpdateTeamUserBusinessI
 
     private function relateProjectsToTeamUsers(string $teamUserId, array $projects): void
     {
-        if($this->profile->unique_name == ProfileUniqueNameEnum::PROJECT_MANAGER->value)
+        if($this->profile->unique_name == ProfileUniqueNameEnum::PROJECT_MANAGER)
         {
             $projects = $this
                 ->projectsRepository

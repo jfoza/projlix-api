@@ -15,7 +15,7 @@ class ProfileMocks
             Profile::ID              => Uuid::uuid4Generate(),
             Profile::PROFILE_TYPE_ID => Uuid::uuid4Generate(),
             Profile::DESCRIPTION     => 'Admin Master',
-            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::ADMIN_MASTER->value,
+            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::ADMIN_MASTER,
         ]);
     }
 
@@ -25,7 +25,7 @@ class ProfileMocks
             Profile::ID              => Uuid::uuid4Generate(),
             Profile::PROFILE_TYPE_ID => Uuid::uuid4Generate(),
             Profile::DESCRIPTION     => 'Project Manager',
-            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::PROJECT_MANAGER->value,
+            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::PROJECT_MANAGER,
         ]);
     }
 
@@ -35,7 +35,7 @@ class ProfileMocks
             Profile::ID              => Uuid::uuid4Generate(),
             Profile::PROFILE_TYPE_ID => Uuid::uuid4Generate(),
             Profile::DESCRIPTION     => 'Team Leader',
-            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::TEAM_LEADER->value,
+            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::TEAM_LEADER,
         ]);
     }
 
@@ -45,7 +45,7 @@ class ProfileMocks
             Profile::ID              => Uuid::uuid4Generate(),
             Profile::PROFILE_TYPE_ID => Uuid::uuid4Generate(),
             Profile::DESCRIPTION     => 'Project Member',
-            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::PROJECT_MEMBER->value,
+            Profile::UNIQUE_NAME     => ProfileUniqueNameEnum::PROJECT_MEMBER,
         ]);
     }
 }

@@ -7,6 +7,8 @@ use App\Features\User\TeamUsers\Contracts\FindAllTeamUsersBusinessInterface;
 use App\Features\User\TeamUsers\Contracts\ShowTeamUserBusinessInterface;
 use App\Features\User\TeamUsers\Contracts\UpdateStatusTeamUserBusinessInterface;
 use App\Features\User\TeamUsers\Contracts\UpdateTeamUserBusinessInterface;
+use App\Features\User\TeamUsers\DTO\TeamUsersFiltersDTO;
+use App\Features\User\TeamUsers\Requests\TeamUsersFiltersRequest;
 use App\Features\User\TeamUsers\Requests\TeamUsersRequest;
 use App\Features\User\Users\DTO\UserDTO;
 use App\Features\User\Users\DTO\UsersFiltersDTO;
@@ -26,19 +28,22 @@ readonly class TeamUsersController
     ) {}
 
     public function index(
-        UsersFiltersRequest $usersFiltersRequest,
-        UsersFiltersDTO $usersFiltersDTO
+        TeamUsersFiltersRequest $filtersRequest,
+        TeamUsersFiltersDTO $filtersDTO
     ): JsonResponse
     {
-        $usersFiltersDTO->paginationOrder->setColumnOrder($usersFiltersRequest->columnOrder);
-        $usersFiltersDTO->paginationOrder->setColumnName($usersFiltersRequest->columnName);
-        $usersFiltersDTO->paginationOrder->setPerPage($usersFiltersRequest->perPage);
-        $usersFiltersDTO->paginationOrder->setPage($usersFiltersRequest->page);
+        $filtersDTO->paginationOrder->setColumnOrder($filtersRequest->columnOrder);
+        $filtersDTO->paginationOrder->setColumnName($filtersRequest->columnName);
+        $filtersDTO->paginationOrder->setPerPage($filtersRequest->perPage);
+        $filtersDTO->paginationOrder->setPage($filtersRequest->page);
 
-        $usersFiltersDTO->name  = $usersFiltersRequest->name;
-        $usersFiltersDTO->email = $usersFiltersRequest->email;
+        $filtersDTO->name       = $filtersRequest->name;
+        $filtersDTO->email      = $filtersRequest->email;
+        $filtersDTO->profileId  = $filtersRequest->profileId;
+        $filtersDTO->projectsId = isset($filtersRequest->projectId) ? [$filtersRequest->projectId] : [];
+        $filtersDTO->active     = isset($filtersRequest->active) ? (bool) $filtersRequest->active : null;
 
-        $result = $this->findAllTeamUsersBusiness->handle($usersFiltersDTO);
+        $result = $this->findAllTeamUsersBusiness->handle($filtersDTO);
 
         return response()->json($result, Response::HTTP_OK);
     }

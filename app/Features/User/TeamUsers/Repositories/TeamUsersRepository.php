@@ -5,9 +5,9 @@ namespace App\Features\User\TeamUsers\Repositories;
 
 use App\Features\Base\Traits\BuilderTrait;
 use App\Features\User\TeamUsers\Contracts\TeamUsersRepositoryInterface;
+use App\Features\User\TeamUsers\DTO\TeamUsersFiltersDTO;
 use App\Features\User\TeamUsers\Models\TeamUser;
 use App\Features\User\TeamUsers\Traits\TeamUsersTrait;
-use App\Features\User\Users\DTO\UsersFiltersDTO;
 use App\Features\User\Users\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -20,15 +20,24 @@ class TeamUsersRepository implements TeamUsersRepositoryInterface
         private readonly TeamUser $teamUser,
     ) {}
 
-    public function findAll(UsersFiltersDTO $usersFiltersDTO): LengthAwarePaginator|Collection
+    public function findAll(TeamUsersFiltersDTO $teamUsersFiltersDTO): LengthAwarePaginator|Collection
     {
         $builder = $this
-            ->getBaseQueryFilters($usersFiltersDTO)
-            ->with(['projects']);
+            ->getBaseQueryFilters($teamUsersFiltersDTO)
+            ->orderBy(
+                match ($teamUsersFiltersDTO->paginationOrder->getColumnName())
+                {
+                    User::NAME   => User::tableField(User::NAME),
+                    User::EMAIL  => User::tableField(User::EMAIL),
+                    User::ACTIVE => User::tableField(User::ACTIVE),
+                    default      => TeamUser::tableField(TeamUser::CREATED_AT)
+                },
+                $teamUsersFiltersDTO->paginationOrder->getColumnOrder(),
+            );
 
         return $this->paginateOrGet(
             $builder,
-            $usersFiltersDTO->paginationOrder
+            $teamUsersFiltersDTO->paginationOrder
         );
     }
 

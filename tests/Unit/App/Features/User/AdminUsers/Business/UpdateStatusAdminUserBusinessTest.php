@@ -34,7 +34,7 @@ class UpdateStatusAdminUserBusinessTest extends UnitBaseTestCase
         $updateStatusAdminUserBusiness = $this->getUpdateStatusAdminUserBusiness();
 
         $updateStatusAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_UPDATE->value])
+            new Policy([RulesEnum::ADMIN_USERS_UPDATE->value])
         );
 
         $result = $updateStatusAdminUserBusiness->handle(Uuid::uuid4Generate());

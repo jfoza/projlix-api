@@ -94,7 +94,7 @@ abstract class Business extends BaseBusiness
             if(!$this->getTeamUserProjects()->firstWhere(Project::ID, $projectId))
             {
                 throw new AppException(
-                    $message ?: MessagesEnum::PROJECT_NOT_ALLOWED,
+                    !is_null($message) ? $message : MessagesEnum::PROJECT_NOT_ALLOWED,
                     Response::HTTP_FORBIDDEN
                 );
             }

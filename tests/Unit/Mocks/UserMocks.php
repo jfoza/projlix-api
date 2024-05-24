@@ -87,7 +87,7 @@ class UserMocks
             'profile' => DatabaseCollection::make([
                 (object) ([
                     Profile::ID => Uuid::uuid4Generate(),
-                    Profile::UNIQUE_NAME => ProfileUniqueNameEnum::ADMIN_MASTER->value
+                    Profile::UNIQUE_NAME => ProfileUniqueNameEnum::ADMIN_MASTER
                 ]),
             ]),
         ]);

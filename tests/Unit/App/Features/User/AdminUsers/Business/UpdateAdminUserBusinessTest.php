@@ -57,7 +57,7 @@ class UpdateAdminUserBusinessTest extends UnitBaseTestCase
         $updateAdminUserBusiness = $this->getUpdateAdminUserBusiness();
 
         $updateAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_UPDATE->value])
+            new Policy([RulesEnum::ADMIN_USERS_UPDATE->value])
         );
 
         $this
@@ -85,7 +85,7 @@ class UpdateAdminUserBusinessTest extends UnitBaseTestCase
         $updateAdminUserBusiness = $this->getUpdateAdminUserBusiness();
 
         $updateAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_UPDATE->value])
+            new Policy([RulesEnum::ADMIN_USERS_UPDATE->value])
         );
 
         $this
@@ -105,7 +105,7 @@ class UpdateAdminUserBusinessTest extends UnitBaseTestCase
         $updateAdminUserBusiness = $this->getUpdateAdminUserBusiness();
 
         $updateAdminUserBusiness->setPolicy(
-            new Policy([RulesEnum::ADMIN_USERS_ADMIN_MASTER_UPDATE->value])
+            new Policy([RulesEnum::ADMIN_USERS_UPDATE->value])
         );
 
         $this

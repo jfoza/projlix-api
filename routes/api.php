@@ -18,6 +18,9 @@ Route::middleware(AuthGuard::class)->group(function () {
     Route::prefix('/admin-users')
         ->group(app_path('Features/User/AdminUsers/Routes/adminUsersRouter.php'));
 
+    Route::prefix('/profiles')
+        ->group(app_path('Features/User/Profiles/Routes/profilesRouter.php'));
+
     Route::prefix('/team-users')
         ->group(app_path('Features/User/TeamUsers/Routes/teamUsersRouter.php'));
 

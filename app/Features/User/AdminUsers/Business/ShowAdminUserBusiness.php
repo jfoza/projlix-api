@@ -22,7 +22,7 @@ class ShowAdminUserBusiness extends Business implements ShowAdminUserBusinessInt
      */
     public function handle(string $userId): object
     {
-        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_ADMIN_MASTER_VIEW->value);
+        $this->getPolicy()->havePermission(RulesEnum::ADMIN_USERS_VIEW->value);
 
         if(!$adminUser = $this->adminUsersRepository->findByUserId($userId))
         {
