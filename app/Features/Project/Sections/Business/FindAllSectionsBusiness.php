@@ -11,6 +11,7 @@ use App\Features\Project\Sections\DTO\SectionsFiltersDTO;
 use App\Shared\Enums\MessagesEnum;
 use App\Shared\Enums\RulesEnum;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\Response;
 
 class FindAllSectionsBusiness extends Business implements FindAllSectionsBusinessInterface
 {
@@ -26,6 +27,8 @@ class FindAllSectionsBusiness extends Business implements FindAllSectionsBusines
     public function handle(SectionsFiltersDTO $sectionsFiltersDTO): Collection
     {
         $this->sectionsFiltersDTO = $sectionsFiltersDTO;
+
+        $this->handleValidateParams();
 
         $policy = $this->getPolicy();
 
@@ -59,5 +62,19 @@ class FindAllSectionsBusiness extends Business implements FindAllSectionsBusines
         );
 
         return $this->sectionsRepository->findAll($this->sectionsFiltersDTO);
+    }
+
+    /**
+     * @throws AppException
+     */
+    private function handleValidateParams(): void
+    {
+        if(!isset($this->sectionsFiltersDTO->projectId) && !isset($this->sectionsFiltersDTO->projectUniqueName))
+        {
+            throw new AppException(
+                MessagesEnum::PROJECT_ID_OR_PROJECT_UNIQUE_NAME_REQUIRED->value,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
     }
 }

@@ -42,7 +42,11 @@ class ProjectsRepository implements ProjectsRepositoryInterface
 
     public function findById(string $id): ?object
     {
-        return Project::where(Project::ID, $id)->first();
+        $rel = ['tags.color', 'icon', 'teamUsers'];
+
+        return Project::with($rel)
+            ->where(Project::ID, $id)
+            ->first();
     }
 
     public function findByIds(array $ids): Collection
@@ -60,7 +64,9 @@ class ProjectsRepository implements ProjectsRepositoryInterface
     public function create(ProjectDTO $projectDTO): object
     {
         return $this->project->create([
+            Project::ICON_ID     => $projectDTO->iconId,
             Project::NAME        => $projectDTO->name,
+            Project::UNIQUE_NAME => $projectDTO->uniqueName,
             Project::DESCRIPTION => $projectDTO->description,
             Project::ACTIVE      => true,
         ]);
@@ -79,9 +85,19 @@ class ProjectsRepository implements ProjectsRepositoryInterface
         return (object) $updated;
     }
 
+    public function saveTags(string $projectId, array $tags): void
+    {
+        Project::find($projectId)->tags()->syncWithoutDetaching($tags);
+    }
+
     public function saveTeamUsers(string $projectId, array $teamUsers): void
     {
-        Project::find($projectId)->teamUsers()->sync($teamUsers);
+        Project::find($projectId)->teamUsers()->syncWithoutDetaching($teamUsers);
+    }
+
+    public function detachTag(string $projectId, string $tagId): void
+    {
+        Project::find($projectId)->tags()->detach($tagId);
     }
 
     public function remove(string $id): void

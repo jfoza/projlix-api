@@ -18,4 +18,9 @@ class IconsRepository implements IconsRepositoryInterface
     {
         return Icon::where(Icon::ID, $id)->first();
     }
+
+    public function findByName(string $name): ?object
+    {
+        return Icon::where(Icon::NAME, $name)->first();
+    }
 }

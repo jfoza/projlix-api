@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Features\Project\Sections\Repositories;
 
+use App\Features\Project\Projects\Models\Project;
 use App\Features\Project\Sections\Contracts\SectionsRepositoryInterface;
 use App\Features\Project\Sections\DTO\SectionsDTO;
 use App\Features\Project\Sections\DTO\SectionsFiltersDTO;
@@ -27,7 +28,18 @@ class SectionsRepository implements SectionsRepositoryInterface
 
         return collect(
             Section::with($relations)
-                ->where(Section::PROJECT_ID, $sectionsFiltersDTO->projectId)
+                ->when(
+                    isset($sectionsFiltersDTO->projectId),
+                    fn($q) => $q->where(Section::PROJECT_ID, $sectionsFiltersDTO->projectId)
+                )
+                ->when(
+                    isset($sectionsFiltersDTO->projectUniqueName),
+                    fn($q) => $q->whereRelation(
+                        'project',
+                        Project::UNIQUE_NAME,
+                        $sectionsFiltersDTO->projectUniqueName
+                    )
+                )
                 ->get()
         );
     }

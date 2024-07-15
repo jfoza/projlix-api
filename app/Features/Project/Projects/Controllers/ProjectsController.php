@@ -6,7 +6,6 @@ use App\Features\Project\Projects\Contracts\CreateProjectBusinessInterface;
 use App\Features\Project\Projects\Contracts\FindAllProjectsBusinessInterface;
 use App\Features\Project\Projects\Contracts\RemoveProjectBusinessInterface;
 use App\Features\Project\Projects\Contracts\ShowProjectBusinessInterface;
-use App\Features\Project\Projects\Contracts\UpdateProjectBusinessInterface;
 use App\Features\Project\Projects\DTO\ProjectDTO;
 use App\Features\Project\Projects\DTO\ProjectsFiltersDTO;
 use App\Features\Project\Projects\Requests\ProjectRequest;
@@ -21,7 +20,6 @@ readonly class ProjectsController
         private FindAllProjectsBusinessInterface $findAllProjectsBusiness,
         private ShowProjectBusinessInterface     $showProjectBusiness,
         private CreateProjectBusinessInterface   $createProjectBusiness,
-        private UpdateProjectBusinessInterface   $updateProjectBusiness,
         private RemoveProjectBusinessInterface   $removeProjectBusiness,
     ) {}
 
@@ -61,20 +59,6 @@ readonly class ProjectsController
         $projectDTO->teamUsers   = $projectRequest->teamUsers;
 
         $project = $this->createProjectBusiness->handle($projectDTO);
-
-        return response()->json($project, Response::HTTP_OK);
-    }
-
-    public function update(
-        ProjectRequest $projectRequest,
-        ProjectDTO $projectDTO,
-    ): JsonResponse
-    {
-        $projectDTO->id          = $projectRequest->id;
-        $projectDTO->name        = $projectRequest->name;
-        $projectDTO->description = $projectRequest->description;
-
-        $project = $this->updateProjectBusiness->handle($projectDTO);
 
         return response()->json($project, Response::HTTP_OK);
     }

@@ -7,7 +7,9 @@ use App\Exceptions\AppException;
 use App\Features\Base\Business\Business;
 use App\Features\General\Tags\Contracts\FindAllTagsBusinessInterface;
 use App\Features\General\Tags\Contracts\TagsRepositoryInterface;
+use App\Features\General\Tags\DTO\TagsFiltersDTO;
 use App\Shared\Enums\RulesEnum;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class FindAllTagsBusiness extends Business implements FindAllTagsBusinessInterface
@@ -19,10 +21,10 @@ class FindAllTagsBusiness extends Business implements FindAllTagsBusinessInterfa
     /**
      * @throws AppException
      */
-    public function handle(): Collection
+    public function handle(TagsFiltersDTO $tagsFiltersDTO): LengthAwarePaginator|Collection
     {
         $this->getPolicy()->havePermission(RulesEnum::TAGS_VIEW->value);
 
-        return $this->tagsRepository->findAll();
+        return $this->tagsRepository->findAll($tagsFiltersDTO);
     }
 }

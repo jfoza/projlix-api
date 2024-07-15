@@ -7,5 +7,6 @@ use App\Features\Base\DTO\FiltersDTO;
 
 class SectionsFiltersDTO extends FiltersDTO
 {
-    public string $projectId;
+    public ?string $projectId;
+    public ?string $projectUniqueName;
 }

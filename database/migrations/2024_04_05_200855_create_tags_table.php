@@ -14,12 +14,18 @@ return new class extends Migration
     {
         Schema::create('general.tags', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
+            $table->uuid('color_id');
             $table->string('name');
             $table->boolean('active')->default(true);
             $table->uuid('creator_id')->nullable();
             $table->uuid('updater_id')->nullable();
             $table->timestamp('created_at')->default(DB::raw('now()'));
             $table->timestamp('updated_at')->default(DB::raw('now()'));
+
+            $table
+                ->foreign('color_id', 'TagColorIdFk')
+                ->references('id')
+                ->on('general.colors');
         });
     }
 

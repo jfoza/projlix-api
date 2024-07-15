@@ -9,4 +9,5 @@ interface IconsRepositoryInterface
 {
     public function findAll(): Collection;
     public function findById(string $id): ?object;
+    public function findByName(string $name): ?object;
 }

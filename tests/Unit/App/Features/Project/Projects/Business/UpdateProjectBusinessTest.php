@@ -5,7 +5,7 @@ namespace Tests\Unit\App\Features\Project\Projects\Business;
 
 use App\Exceptions\AppException;
 use App\Features\Base\ACL\Policy;
-use App\Features\Project\Projects\Business\UpdateProjectBusiness;
+use App\Features\Project\Projects\Business\UpdateProjectInfoBusiness;
 use App\Features\Project\Projects\Contracts\ProjectsRepositoryInterface;
 use App\Features\Project\Projects\DTO\ProjectDTO;
 use App\Features\Project\Projects\Models\Project;
@@ -34,9 +34,9 @@ class UpdateProjectBusinessTest extends UnitBaseTestCase
         $this->projectDtoMock->description = 'description';
     }
 
-    public function getUpdateProjectBusiness(): UpdateProjectBusiness
+    public function getUpdateProjectBusiness(): UpdateProjectInfoBusiness
     {
-        return new UpdateProjectBusiness(
+        return new UpdateProjectInfoBusiness(
             $this->projectsRepositoryMock,
         );
     }

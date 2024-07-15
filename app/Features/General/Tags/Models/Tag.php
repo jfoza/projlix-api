@@ -3,15 +3,18 @@
 namespace App\Features\General\Tags\Models;
 
 use App\Features\Base\Models\Register;
+use App\Features\General\Colors\Models\Color;
 use App\Features\Project\Cards\Models\Card;
 use App\Features\Project\Projects\Models\Project;
 use App\Features\Project\ProjectTag\Models\ProjectTag;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Tag extends Register
 {
     const ID   = 'id';
+    const COLOR_ID = 'color_id';
     const NAME = 'name';
     const ACTIVE = 'active';
 
@@ -25,6 +28,7 @@ class Tag extends Register
     protected $keyType = 'string';
 
     protected $fillable = [
+        self::COLOR_ID,
         self::NAME,
         self::ACTIVE,
     ];
@@ -49,5 +53,10 @@ class Tag extends Register
             self::ID,
             Card::ID
         );
+    }
+
+    public function color(): BelongsTo
+    {
+        return $this->belongsTo(Color::class);
     }
 }

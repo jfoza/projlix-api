@@ -16,14 +16,21 @@ return new class extends Migration
 
         Schema::create('project.projects', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
+            $table->uuid('icon_id');
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('unique_name');
             $table->string('image')->nullable();
             $table->boolean('active')->default(true);
             $table->uuid('creator_id')->nullable();
             $table->uuid('updater_id')->nullable();
             $table->timestamp('created_at')->default(DB::raw('now()'));
             $table->timestamp('updated_at')->default(DB::raw('now()'));
+
+            $table
+                ->foreign('icon_id', 'ProjectIconIdFk')
+                ->references('id')
+                ->on('general.icons');
         });
     }
 

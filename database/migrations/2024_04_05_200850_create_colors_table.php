@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('general.colors', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
             $table->string('hexadecimal');
+            $table->string('rgba');
+            $table->string('description');
             $table->uuid('creator_id')->nullable();
             $table->uuid('updater_id')->nullable();
             $table->timestamp('created_at')->default(DB::raw('now()'));

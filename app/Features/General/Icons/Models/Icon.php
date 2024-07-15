@@ -3,6 +3,8 @@
 namespace App\Features\General\Icons\Models;
 
 use App\Features\Base\Models\Register;
+use App\Features\Project\Projects\Models\Project;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Icon extends Register
 {
@@ -23,4 +25,9 @@ class Icon extends Register
         self::TYPE,
         self::NAME,
     ];
+
+    public function project(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
 }

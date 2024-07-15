@@ -31,7 +31,8 @@ readonly class SectionsController
         SectionsFiltersDTO $filtersDTO
     ): JsonResponse
     {
-        $filtersDTO->projectId = $request->projectId;
+        $filtersDTO->projectId         = $request->projectId;
+        $filtersDTO->projectUniqueName = $request->projectUniqueName;
 
         $result = $this->findAllSectionsBusiness->handle($filtersDTO);
 
