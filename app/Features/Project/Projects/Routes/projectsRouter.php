@@ -11,6 +11,7 @@ Route::get('/id/{id}', [ProjectsController::class, 'show'])->middleware(Validate
 Route::post('/', [ProjectsController::class, 'insert']);
 
 Route::put('/info/id/{id}', [ProjectsUpdateController::class, 'updateInfo'])->middleware(ValidateUuid4::class);
+Route::put('/icon/id/{id}', [ProjectsUpdateController::class, 'updateIcon'])->middleware(ValidateUuid4::class);
 Route::put('/tag/id/{id}', [ProjectsUpdateController::class, 'addTag'])->middleware(ValidateUuid4::class);
 
 Route::delete('/tag/id/{id}', [ProjectsUpdateController::class, 'removeTag'])->middleware(ValidateUuid4::class);

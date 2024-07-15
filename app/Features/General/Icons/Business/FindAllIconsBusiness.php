@@ -7,8 +7,10 @@ use App\Exceptions\AppException;
 use App\Features\Base\Business\Business;
 use App\Features\General\Icons\Contracts\FindAllIconsBusinessInterface;
 use App\Features\General\Icons\Contracts\IconsRepositoryInterface;
+use App\Shared\Enums\CacheEnum;
 use App\Shared\Enums\RulesEnum;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class FindAllIconsBusiness extends Business implements FindAllIconsBusinessInterface
 {
@@ -23,6 +25,9 @@ class FindAllIconsBusiness extends Business implements FindAllIconsBusinessInter
     {
         $this->getPolicy()->havePermission(RulesEnum::ICONS_VIEW->value);
 
-        return $this->iconsRepository->findAll();
+        return Cache::rememberForever(
+            CacheEnum::ICONS->value,
+            fn() => $this->iconsRepository->findAll()
+        );
     }
 }

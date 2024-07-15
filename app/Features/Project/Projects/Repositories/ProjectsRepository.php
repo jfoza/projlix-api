@@ -18,7 +18,7 @@ class ProjectsRepository implements ProjectsRepositoryInterface
 
     public function findAll(ProjectsFiltersDTO $projectsFiltersDTO): Collection|LengthAwarePaginator
     {
-        $builder = Project::with(['teamUsers.user'])
+        $builder = Project::with(['teamUsers.user', 'icon'])
             ->when(
                 isset($projectsFiltersDTO->title),
                 fn($q) => $q->where(Project::NAME, $projectsFiltersDTO->name)
@@ -88,6 +88,16 @@ class ProjectsRepository implements ProjectsRepositoryInterface
     public function saveTags(string $projectId, array $tags): void
     {
         Project::find($projectId)->tags()->syncWithoutDetaching($tags);
+    }
+
+    public function saveIcon(string $projectId, string $iconId): void
+    {
+        $updated = [
+            Project::ID      => $projectId,
+            Project::ICON_ID => $iconId,
+        ];
+
+        $this->project->where(Project::ID, $projectId)->update($updated);
     }
 
     public function saveTeamUsers(string $projectId, array $teamUsers): void

@@ -17,6 +17,7 @@ interface ProjectsRepositoryInterface
     public function create(ProjectDTO $projectDTO): object;
     public function save(ProjectDTO $projectDTO): object;
     public function saveTags(string $projectId, array $tags): void;
+    public function saveIcon(string $projectId, string $iconId): void;
     public function saveTeamUsers(string $projectId, array $teamUsers): void;
     public function detachTag(string $projectId, string $tagId): void;
     public function remove(string $id): void;

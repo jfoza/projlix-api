@@ -3,10 +3,11 @@
 namespace App\Features\Project\Projects\Controllers;
 
 use App\Features\Project\Projects\Contracts\RemoveProjectTagBusinessInterface;
+use App\Features\Project\Projects\Contracts\UpdateProjectIconBusinessInterface;
 use App\Features\Project\Projects\Contracts\UpdateProjectInfoBusinessInterface;
 use App\Features\Project\Projects\Contracts\AddProjectTagBusinessInterface;
 use App\Features\Project\Projects\DTO\ProjectDTO;
-use App\Features\Project\Projects\Requests\ProjectRequest;
+use App\Features\Project\Projects\Requests\UpdateProjectIconRequest;
 use App\Features\Project\Projects\Requests\UpdateProjectInfoRequest;
 use App\Features\Project\Projects\Requests\UpdateProjectTagsRequest;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +17,7 @@ readonly class ProjectsUpdateController
 {
     public function __construct(
         private UpdateProjectInfoBusinessInterface $updateProjectInfoBusiness,
+        private UpdateProjectIconBusinessInterface $updateProjectIconBusiness,
         private AddProjectTagBusinessInterface     $addProjectTagBusiness,
         private RemoveProjectTagBusinessInterface  $removeProjectTagBusiness,
     ) {}
@@ -48,11 +50,16 @@ readonly class ProjectsUpdateController
     }
 
     public function updateIcon(
-        ProjectRequest $projectRequest,
+        UpdateProjectIconRequest $projectRequest,
         ProjectDTO $projectDTO,
     ): JsonResponse
     {
+        $projectDTO->id     = $projectRequest->id;
+        $projectDTO->iconId = $projectRequest->iconId;
 
+        $this->updateProjectIconBusiness->handle($projectDTO);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 
     public function removeTag(

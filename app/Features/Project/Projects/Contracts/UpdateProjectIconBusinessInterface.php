@@ -6,5 +6,5 @@ use App\Features\Project\Projects\DTO\ProjectDTO;
 
 interface UpdateProjectIconBusinessInterface
 {
-    public function handle(ProjectDTO $projectDTO): object;
+    public function handle(ProjectDTO $projectDTO): void;
 }

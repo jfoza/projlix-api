@@ -8,6 +8,7 @@ use App\Features\Project\Projects\Business\FindAllProjectsBusiness;
 use App\Features\Project\Projects\Business\RemoveProjectBusiness;
 use App\Features\Project\Projects\Business\RemoveProjectTagBusiness;
 use App\Features\Project\Projects\Business\ShowProjectBusiness;
+use App\Features\Project\Projects\Business\UpdateProjectIconBusiness;
 use App\Features\Project\Projects\Business\UpdateProjectInfoBusiness;
 use App\Features\Project\Projects\Business\AddProjectTagBusiness;
 use App\Features\Project\Projects\Contracts\CreateProjectBusinessInterface;
@@ -17,6 +18,7 @@ use App\Features\Project\Projects\Contracts\ProjectUpdateAccessServiceInterface;
 use App\Features\Project\Projects\Contracts\RemoveProjectBusinessInterface;
 use App\Features\Project\Projects\Contracts\RemoveProjectTagBusinessInterface;
 use App\Features\Project\Projects\Contracts\ShowProjectBusinessInterface;
+use App\Features\Project\Projects\Contracts\UpdateProjectIconBusinessInterface;
 use App\Features\Project\Projects\Contracts\UpdateProjectInfoBusinessInterface;
 use App\Features\Project\Projects\Contracts\AddProjectTagBusinessInterface;
 use App\Features\Project\Projects\Repositories\ProjectsRepository;
@@ -55,6 +57,11 @@ class ProjectsProviders extends ServiceProvider
         $this->bind(
             UpdateProjectInfoBusinessInterface::class,
             UpdateProjectInfoBusiness::class
+        );
+
+        $this->bind(
+            UpdateProjectIconBusinessInterface::class,
+            UpdateProjectIconBusiness::class
         );
 
         $this->bind(

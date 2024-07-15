@@ -8,4 +8,5 @@ enum CacheEnum: string {
     case CITIES_IN_COMPANIES = 'CITIES_IN_COMPANIES';
     case STATES = 'STATES';
     case SYSTEM_DATA = 'SYSTEM_DATA';
+    case ICONS = 'ICONS';
 }
