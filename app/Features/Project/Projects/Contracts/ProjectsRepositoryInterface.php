@@ -20,5 +20,8 @@ interface ProjectsRepositoryInterface
     public function saveIcon(string $projectId, string $iconId): void;
     public function saveTeamUsers(string $projectId, array $teamUsers): void;
     public function detachTag(string $projectId, string $tagId): void;
+    public function detachTeamUser(string $projectId, string $teamUserId): void;
     public function remove(string $id): void;
+    public function removeTeamUsers(string $projectId): void;
+    public function removeTags(string $projectId): void;
 }

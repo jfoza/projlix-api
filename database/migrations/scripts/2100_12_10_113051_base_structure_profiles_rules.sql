@@ -112,6 +112,15 @@ DO $$
         _rule93 uuid := uuid_generate_v4();
         _rule94 uuid := uuid_generate_v4();
         _rule95 uuid := uuid_generate_v4();
+        _rule96 uuid := uuid_generate_v4();
+        _rule97 uuid := uuid_generate_v4();
+        _rule98 uuid := uuid_generate_v4();
+        _rule99 uuid := uuid_generate_v4();
+        _rule100 uuid := uuid_generate_v4();
+        _rule101 uuid := uuid_generate_v4();
+        _rule102 uuid := uuid_generate_v4();
+        _rule103 uuid := uuid_generate_v4();
+        _rule104 uuid := uuid_generate_v4();
 
     BEGIN
         INSERT INTO user_conf.rules (id,description, subject, action)
@@ -227,7 +236,31 @@ DO $$
             (_rule83, 'PROFILES_ADMIN_MASTER_VIEW', 'PROFILES_ADMIN_MASTER', _view_action),
             (_rule84, 'PROFILES_PROJECT_MANAGER_VIEW', 'PROFILES_PROJECT_MANAGER', _view_action),
             (_rule85, 'PROFILES_TEAM_LEADER_VIEW', 'PROFILES_TEAM_LEADER', _view_action),
-            (_rule86, 'PROFILES_PROJECT_MEMBER_VIEW', 'PROFILES_PROJECT_MEMBER', _view_action)
+            (_rule86, 'PROFILES_PROJECT_MEMBER_VIEW', 'PROFILES_PROJECT_MEMBER', _view_action),
+
+            (_rule87, 'PROJECTS_ADMIN_MASTER_TEAM_USER_INSERT', 'PROJECTS_ADMIN_MASTER_TEAM_USER', _insert_action),
+            (_rule88, 'PROJECTS_PROJECT_MANAGER_TEAM_USER_INSERT', 'PROJECTS_PROJECT_MANAGER_TEAM_USER', _insert_action),
+            (_rule89, 'PROJECTS_TEAM_LEADER_TEAM_USER_INSERT', 'PROJECTS_TEAM_LEADER_TEAM_USER', _insert_action),
+
+            (_rule90, 'PROJECTS_ADMIN_MASTER_TEAM_USER_DELETE', 'PROJECTS_ADMIN_MASTER_TEAM_USER', _delete_action),
+            (_rule91, 'PROJECTS_PROJECT_MANAGER_TEAM_USER_DELETE', 'PROJECTS_PROJECT_MANAGER_TEAM_USER', _delete_action),
+            (_rule92, 'PROJECTS_TEAM_LEADER_TEAM_USER_DELETE', 'PROJECTS_TEAM_LEADER_TEAM_USER', _delete_action),
+
+            (_rule93, 'PROJECTS_ADMIN_MASTER_TAGS_INSERT',    'PROJECTS_ADMIN_MASTER_TAGS', _insert_action),
+            (_rule94, 'PROJECTS_PROJECT_MANAGER_TAGS_INSERT', 'PROJECTS_PROJECT_MANAGER_TAGS', _insert_action),
+            (_rule95, 'PROJECTS_TEAM_LEADER_TAGS_INSERT',     'PROJECTS_TEAM_LEADER_TAGS', _insert_action),
+
+            (_rule96, 'PROJECTS_ADMIN_MASTER_TAGS_DELETE',    'PROJECTS_ADMIN_MASTER_TAGS', _delete_action),
+            (_rule97, 'PROJECTS_PROJECT_MANAGER_TAGS_DELETE', 'PROJECTS_PROJECT_MANAGER_TAGS', _delete_action),
+            (_rule98, 'PROJECTS_TEAM_LEADER_TAGS_DELETE',     'PROJECTS_TEAM_LEADER_TAGS', _delete_action),
+
+            (_rule99, 'PROJECTS_ADMIN_MASTER_ICON_UPDATE',     'PROJECTS_ADMIN_MASTER_ICON', _update_action),
+            (_rule100, 'PROJECTS_PROJECT_MANAGER_ICON_UPDATE', 'PROJECTS_PROJECT_MANAGER_ICON', _update_action),
+            (_rule101, 'PROJECTS_TEAM_LEADER_ICON_UPDATE',     'PROJECTS_TEAM_LEADER_ICON', _update_action),
+
+            (_rule102, 'PROJECTS_ADMIN_MASTER_INFO_UPDATE',    'PROJECTS_ADMIN_MASTER_INFO', _update_action),
+            (_rule103, 'PROJECTS_PROJECT_MANAGER_INFO_UPDATE', 'PROJECTS_PROJECT_MANAGER_INFO', _update_action),
+            (_rule104, 'PROJECTS_TEAM_LEADER_INFO_UPDATE',     'PROJECTS_TEAM_LEADER_INFO', _update_action)
         ;
 
         INSERT INTO user_conf.profile_types (id, description, unique_name)
@@ -320,6 +353,12 @@ DO $$
             (_profile1, _rule69),
             (_profile1, _rule70),
             (_profile1, _rule83),
+            (_profile1, _rule87),
+            (_profile1, _rule90),
+            (_profile1, _rule93),
+            (_profile1, _rule96),
+            (_profile1, _rule99),
+            (_profile1, _rule102),
 
             -- PROJECT_MANAGER
             (_profile2, _rule1),
@@ -364,6 +403,12 @@ DO $$
             (_profile2, _rule73),
             (_profile2, _rule74),
             (_profile2, _rule84),
+            (_profile2, _rule88),
+            (_profile2, _rule91),
+            (_profile2, _rule94),
+            (_profile2, _rule97),
+            (_profile2, _rule100),
+            (_profile2, _rule103),
 
             -- TEAM_LEADER
             (_profile3, _rule1),
@@ -407,6 +452,12 @@ DO $$
             (_profile3, _rule77),
             (_profile3, _rule78),
             (_profile3, _rule85),
+            (_profile3, _rule89),
+            (_profile3, _rule92),
+            (_profile3, _rule95),
+            (_profile3, _rule98),
+            (_profile3, _rule101),
+            (_profile3, _rule104),
 
             -- PROJECT_MEMBER
             (_profile4, _rule1),

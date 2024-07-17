@@ -132,12 +132,12 @@ abstract class Business extends BaseBusiness
     /**
      * @throws AppException
      */
-    public function profileHierarchyValidation(string $needle, array $haystack): void
+    public function profileHierarchyValidation(string $needle, array $haystack, string $message = null): void
     {
         if(!in_array($needle, $haystack))
         {
             throw new AppException(
-                MessagesEnum::PROFILE_NOT_ALLOWED,
+                !is_null($message) ? $message : MessagesEnum::PROFILE_NOT_ALLOWED,
                 Response::HTTP_FORBIDDEN
             );
         }

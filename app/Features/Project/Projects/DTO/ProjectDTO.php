@@ -9,6 +9,7 @@ class ProjectDTO
     public string $uniqueName;
     public ?string $iconId;
     public ?string $tagId;
+    public ?string $teamUserId;
     public ?string $description;
     public ?bool $active;
     public ?array $teamUsers;

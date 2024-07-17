@@ -7,6 +7,10 @@ use App\Features\Project\Projects\Contracts\ProjectsRepositoryInterface;
 use App\Features\Project\Projects\DTO\ProjectDTO;
 use App\Features\Project\Projects\DTO\ProjectsFiltersDTO;
 use App\Features\Project\Projects\Models\Project;
+use App\Features\User\Profiles\Models\Profile;
+use App\Features\User\ProfilesUsers\Models\ProfileUser;
+use App\Features\User\TeamUsers\Models\TeamUser;
+use App\Features\User\Users\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -42,7 +46,37 @@ class ProjectsRepository implements ProjectsRepositoryInterface
 
     public function findById(string $id): ?object
     {
-        $rel = ['tags.color', 'icon', 'teamUsers'];
+        $rel = [
+            'tags.color',
+            'icon',
+            'teamUsers' => function ($q) {
+                return $q
+                    ->select([
+                        User::tableField(User::ID),
+                        TeamUser::tableField(TeamUser::ID).' as team_user_id',
+                        User::tableField(User::NAME),
+                        User::tableField(User::SHORT_NAME),
+                        User::tableField(User::EMAIL),
+                        Profile::tableField(Profile::DESCRIPTION).' as profile',
+                        Profile::tableField(Profile::UNIQUE_NAME).' as profile_unique_name',
+                    ])
+                    ->join(
+                        User::tableName(),
+                        User::tableField(User::ID),
+                        TeamUser::tableField(TeamUser::USER_ID)
+                    )
+                    ->join(
+                        ProfileUser::tableName(),
+                        ProfileUser::tableField(ProfileUser::USER_ID),
+                        User::tableField(User::ID)
+                    )
+                    ->join(
+                        Profile::tableName(),
+                        Profile::tableField(Profile::ID),
+                        ProfileUser::tableField(ProfileUser::PROFILE_ID)
+                    );
+            }
+        ];
 
         return Project::with($rel)
             ->where(Project::ID, $id)
@@ -110,8 +144,23 @@ class ProjectsRepository implements ProjectsRepositoryInterface
         Project::find($projectId)->tags()->detach($tagId);
     }
 
+    public function detachTeamUser(string $projectId, string $teamUserId): void
+    {
+        Project::find($projectId)->teamUsers()->detach($teamUserId);
+    }
+
     public function remove(string $id): void
     {
         Project::where(Project::ID, $id)->delete();
+    }
+
+    public function removeTeamUsers(string $projectId): void
+    {
+        Project::find($projectId)->teamUsers()->sync([]);
+    }
+
+    public function removeTags(string $projectId): void
+    {
+        Project::find($projectId)->tags()->sync([]);
     }
 }

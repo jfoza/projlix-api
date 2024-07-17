@@ -49,6 +49,14 @@ class TeamUsersRepository implements TeamUsersRepositoryInterface
             ->first();
     }
 
+    public function findByTeamUserId(string $teamUserId): ?object
+    {
+        return $this
+            ->getBaseQuery()
+            ->where(TeamUser::tableField(TeamUser::ID), $teamUserId)
+            ->first();
+    }
+
     public function findByTeamUsersIds(array $ids): Collection
     {
         return collect(

@@ -55,4 +55,23 @@ class TeamUsersValidations
 
         return $teamUser;
     }
+
+    /**
+     * @throws AppException
+     */
+    public static function teamUserExists(
+        string $teamUserId,
+        TeamUsersRepositoryInterface $teamUsersRepository
+    ): object
+    {
+        if(!$teamUser = $teamUsersRepository->findByTeamUserId($teamUserId))
+        {
+            throw new AppException(
+                MessagesEnum::USER_NOT_FOUND,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        return $teamUser;
+    }
 }

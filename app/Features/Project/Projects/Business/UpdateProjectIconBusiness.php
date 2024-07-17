@@ -7,17 +7,19 @@ use App\Features\Base\Business\Business;
 use App\Features\General\Icons\Contracts\IconsRepositoryInterface;
 use App\Features\General\Icons\Validations\IconsValidations;
 use App\Features\Project\Projects\Contracts\ProjectsRepositoryInterface;
-use App\Features\Project\Projects\Contracts\ProjectUpdateAccessServiceInterface;
 use App\Features\Project\Projects\Contracts\UpdateProjectIconBusinessInterface;
 use App\Features\Project\Projects\DTO\ProjectDTO;
+use App\Features\Project\Projects\Validations\ProjectsValidations;
+use App\Shared\Enums\RulesEnum;
 use App\Shared\Utils\Transaction;
 
 class UpdateProjectIconBusiness extends Business implements UpdateProjectIconBusinessInterface
 {
+    private ProjectDTO $projectDTO;
+
     public function __construct(
-        private readonly ProjectUpdateAccessServiceInterface $projectUpdateAccessService,
-        private readonly IconsRepositoryInterface            $iconsRepository,
-        private readonly ProjectsRepositoryInterface         $projectsRepository,
+        private readonly IconsRepositoryInterface    $iconsRepository,
+        private readonly ProjectsRepositoryInterface $projectsRepository,
     ) {}
 
     /**
@@ -25,10 +27,37 @@ class UpdateProjectIconBusiness extends Business implements UpdateProjectIconBus
      */
     public function handle(ProjectDTO $projectDTO): void
     {
-        $this->projectUpdateAccessService->execute($projectDTO->id);
+        $this->projectDTO = $projectDTO;
+
+        $policy = $this->getPolicy();
+
+        match (true)
+        {
+            $policy->haveRule(RulesEnum::PROJECTS_ADMIN_MASTER_ICON_UPDATE->value) => true,
+
+            $policy->haveRule(RulesEnum::PROJECTS_PROJECT_MANAGER_ICON_UPDATE->value),
+            $policy->haveRule(RulesEnum::PROJECTS_TEAM_LEADER_ICON_UPDATE->value) => function() {
+                $this->canAccessProjects([$this->projectDTO->id]);
+            },
+
+            default => $policy->dispatchForbiddenError(),
+        };
+
+        $this->handleUpdateProjectIcon();
+    }
+
+    /**
+     * @throws AppException
+     */
+    private function handleUpdateProjectIcon(): void
+    {
+        ProjectsValidations::projectExists(
+            $this->projectDTO->id,
+            $this->projectsRepository
+        );
 
         IconsValidations::iconExists(
-            $projectDTO->iconId,
+            $this->projectDTO->iconId,
             $this->iconsRepository
         );
 
@@ -37,8 +66,8 @@ class UpdateProjectIconBusiness extends Business implements UpdateProjectIconBus
         try
         {
             $this->projectsRepository->saveIcon(
-                $projectDTO->id,
-                $projectDTO->iconId,
+                $this->projectDTO->id,
+                $this->projectDTO->iconId,
             );
 
             Transaction::commit();

@@ -37,11 +37,12 @@ readonly class TeamUsersController
         $filtersDTO->paginationOrder->setPerPage($filtersRequest->perPage);
         $filtersDTO->paginationOrder->setPage($filtersRequest->page);
 
-        $filtersDTO->name       = $filtersRequest->name;
-        $filtersDTO->email      = $filtersRequest->email;
-        $filtersDTO->profileId  = $filtersRequest->profileId;
-        $filtersDTO->projectsId = isset($filtersRequest->projectId) ? [$filtersRequest->projectId] : [];
-        $filtersDTO->active     = isset($filtersRequest->active) ? (bool) $filtersRequest->active : null;
+        $filtersDTO->name        = $filtersRequest->name;
+        $filtersDTO->email       = $filtersRequest->email;
+        $filtersDTO->nameOrEmail = $filtersRequest->nameOrEmail;
+        $filtersDTO->profileId   = $filtersRequest->profileId;
+        $filtersDTO->projectsId  = isset($filtersRequest->projectId) ? [$filtersRequest->projectId] : [];
+        $filtersDTO->active      = isset($filtersRequest->active) ? (bool) $filtersRequest->active : null;
 
         $result = $this->findAllTeamUsersBusiness->handle($filtersDTO);
 

@@ -18,22 +18,24 @@ class TeamUsersFiltersRequest extends FormRequest
     public function rules(): array
     {
         return $this->mergePaginationOrderRules([
-            'name'       => 'nullable|string',
-            'email'      => 'nullable|string|email',
-            'active'     => 'nullable|boolean',
-            'profileId'  => ['nullable', 'string', new Uuid4Rule()],
-            'projectId'  => ['nullable', 'string', new Uuid4Rule()],
+            'name'        => 'nullable|string',
+            'email'       => 'nullable|string|email',
+            'nameOrEmail' => 'nullable|string',
+            'active'      => 'nullable|boolean',
+            'profileId'   => ['nullable', 'string', new Uuid4Rule()],
+            'projectId'   => ['nullable', 'string', new Uuid4Rule()],
         ]);
     }
 
     public function attributes(): array
     {
         return $this->mergePaginationOrderAttributes([
-            'name'       => 'Name',
-            'email'      => 'E-mail',
-            'active'     => 'Active',
-            'profileId'  => 'Profile Id',
-            'projectId'  => 'Project Id',
+            'name'        => 'Name',
+            'email'       => 'E-mail',
+            'nameOrEmail' => 'Name or E-mail',
+            'active'      => 'Active',
+            'profileId'   => 'Profile Id',
+            'projectId'   => 'Project Id',
         ]);
     }
 }

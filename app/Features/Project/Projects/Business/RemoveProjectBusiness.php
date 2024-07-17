@@ -32,7 +32,8 @@ class RemoveProjectBusiness extends Business implements RemoveProjectBusinessInt
 
         try
         {
-            $this->projectsRepository->saveTeamUsers($id, []);
+            $this->projectsRepository->removeTeamUsers($id);
+            $this->projectsRepository->removeTags($id);
 
             $this->projectsRepository->remove($id);
 

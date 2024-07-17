@@ -29,24 +29,22 @@ class FindAllProjectsBusiness extends Business implements FindAllProjectsBusines
         $policy = $this->getPolicy();
 
         return match (true) {
-            $policy->haveRule(RulesEnum::PROJECTS_ADMIN_MASTER_VIEW->value),
-            $policy->haveRule(RulesEnum::PROJECTS_PROJECT_MANAGER_VIEW->value)
-                => $this->findByAdminMasterAndProjectManager(),
+            $policy->haveRule(RulesEnum::PROJECTS_ADMIN_MASTER_VIEW->value) => $this->findByAdminMaster(),
 
+            $policy->haveRule(RulesEnum::PROJECTS_PROJECT_MANAGER_VIEW->value),
             $policy->haveRule(RulesEnum::PROJECTS_TEAM_LEADER_VIEW->value),
-            $policy->haveRule(RulesEnum::PROJECTS_PROJECT_MEMBER_VIEW->value)
-                => $this->findByTeamLeaderAndProjectMember(),
+            $policy->haveRule(RulesEnum::PROJECTS_PROJECT_MEMBER_VIEW->value) => $this->findByProjectsByAccess(),
 
             default => $policy->dispatchForbiddenError(),
         };
     }
 
-    private function findByAdminMasterAndProjectManager(): LengthAwarePaginator|Collection
+    private function findByAdminMaster(): LengthAwarePaginator|Collection
     {
         return $this->projectsRepository->findAll($this->projectsFiltersDTO);
     }
 
-    private function findByTeamLeaderAndProjectMember(): LengthAwarePaginator|Collection
+    private function findByProjectsByAccess(): LengthAwarePaginator|Collection
     {
         $this->projectsFiltersDTO->projectsId = $this->getTeamUserProjectsId();
 

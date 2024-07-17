@@ -9,6 +9,7 @@ class TeamUsersFiltersDTO extends FiltersDTO
 {
     public ?string $name;
     public ?string $email;
+    public ?string $nameOrEmail;
     public ?string $profileId;
     public ?bool   $active;
     public ?array $projectsId;

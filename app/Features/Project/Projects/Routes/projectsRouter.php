@@ -13,6 +13,8 @@ Route::post('/', [ProjectsController::class, 'insert']);
 Route::put('/info/id/{id}', [ProjectsUpdateController::class, 'updateInfo'])->middleware(ValidateUuid4::class);
 Route::put('/icon/id/{id}', [ProjectsUpdateController::class, 'updateIcon'])->middleware(ValidateUuid4::class);
 Route::put('/tag/id/{id}', [ProjectsUpdateController::class, 'addTag'])->middleware(ValidateUuid4::class);
+Route::put('/team-user/id/{id}', [ProjectsUpdateController::class, 'addTeamUser'])->middleware(ValidateUuid4::class);
 
 Route::delete('/tag/id/{id}', [ProjectsUpdateController::class, 'removeTag'])->middleware(ValidateUuid4::class);
+Route::delete('/team-user/id/{id}', [ProjectsUpdateController::class, 'removeTeamUser'])->middleware(ValidateUuid4::class);
 Route::delete('/id/{id}', [ProjectsController::class, 'delete'])->middleware(ValidateUuid4::class);
