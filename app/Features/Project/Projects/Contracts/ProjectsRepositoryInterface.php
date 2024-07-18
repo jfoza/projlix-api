@@ -14,6 +14,7 @@ interface ProjectsRepositoryInterface
     public function findById(string $id): ?object;
     public function findByIds(array $ids): Collection;
     public function findByName(string $name): ?object;
+    public function findByUniqueName(string $uniqueName): ?object;
     public function create(ProjectDTO $projectDTO): object;
     public function save(ProjectDTO $projectDTO): object;
     public function saveTags(string $projectId, array $tags): void;

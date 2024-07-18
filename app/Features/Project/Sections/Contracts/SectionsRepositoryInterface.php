@@ -13,4 +13,5 @@ interface SectionsRepositoryInterface
     public function create(SectionsDTO $sectionsDTO): object;
     public function save(SectionsDTO $sectionsDTO): object;
     public function remove(string $id): void;
+    public function reorderSection(string $sectionId, int $newOrder, string $projectId): void;
 }

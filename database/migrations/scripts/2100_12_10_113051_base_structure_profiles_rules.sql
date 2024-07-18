@@ -121,6 +121,10 @@ DO $$
         _rule102 uuid := uuid_generate_v4();
         _rule103 uuid := uuid_generate_v4();
         _rule104 uuid := uuid_generate_v4();
+        _rule105 uuid := uuid_generate_v4();
+        _rule106 uuid := uuid_generate_v4();
+        _rule107 uuid := uuid_generate_v4();
+        _rule108 uuid := uuid_generate_v4();
 
     BEGIN
         INSERT INTO user_conf.rules (id,description, subject, action)
@@ -260,7 +264,12 @@ DO $$
 
             (_rule102, 'PROJECTS_ADMIN_MASTER_INFO_UPDATE',    'PROJECTS_ADMIN_MASTER_INFO', _update_action),
             (_rule103, 'PROJECTS_PROJECT_MANAGER_INFO_UPDATE', 'PROJECTS_PROJECT_MANAGER_INFO', _update_action),
-            (_rule104, 'PROJECTS_TEAM_LEADER_INFO_UPDATE',     'PROJECTS_TEAM_LEADER_INFO', _update_action)
+            (_rule104, 'PROJECTS_TEAM_LEADER_INFO_UPDATE',     'PROJECTS_TEAM_LEADER_INFO', _update_action),
+
+            (_rule105, 'SECTIONS_ORDER_ADMIN_MASTER_UPDATE',    'SECTIONS_ORDER_ADMIN_MASTER', _update_action),
+            (_rule106, 'SECTIONS_ORDER_PROJECT_MANAGER_UPDATE', 'SECTIONS_ORDER_PROJECT_MANAGER', _update_action),
+            (_rule107, 'SECTIONS_ORDER_TEAM_LEADER_UPDATE',     'SECTIONS_ORDER_TEAM_LEADER', _update_action),
+            (_rule108, 'SECTIONS_ORDER_PROJECT_MEMBER_UPDATE',  'SECTIONS_ORDER_PROJECT_MEMBER', _update_action)
         ;
 
         INSERT INTO user_conf.profile_types (id, description, unique_name)
@@ -359,6 +368,7 @@ DO $$
             (_profile1, _rule96),
             (_profile1, _rule99),
             (_profile1, _rule102),
+            (_profile1, _rule105),
 
             -- PROJECT_MANAGER
             (_profile2, _rule1),
@@ -409,6 +419,7 @@ DO $$
             (_profile2, _rule97),
             (_profile2, _rule100),
             (_profile2, _rule103),
+            (_profile2, _rule106),
 
             -- TEAM_LEADER
             (_profile3, _rule1),
@@ -458,6 +469,7 @@ DO $$
             (_profile3, _rule98),
             (_profile3, _rule101),
             (_profile3, _rule104),
+            (_profile3, _rule107),
 
             -- PROJECT_MEMBER
             (_profile4, _rule1),
@@ -478,7 +490,8 @@ DO $$
             (_profile4, _rule80),
             (_profile4, _rule81),
             (_profile4, _rule82),
-            (_profile4, _rule86)
+            (_profile4, _rule86),
+            (_profile4, _rule108)
 
         ;
     END $$;

@@ -33,6 +33,25 @@ class ProjectsValidations
     /**
      * @throws AppException
      */
+    public static function projectExistsByUniqueName(
+        string $uniqueName,
+        ProjectsRepositoryInterface $projectsRepository,
+    ): object
+    {
+        if(!$project = $projectsRepository->findByUniqueName($uniqueName))
+        {
+            throw new AppException(
+                MessagesEnum::PROJECT_NOT_FOUND->value,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        return $project;
+    }
+
+    /**
+     * @throws AppException
+     */
     public static function projectsExists(
         array $projectsId,
         ProjectsRepositoryInterface $teamUsersRepository,

@@ -75,6 +75,7 @@ enum MessagesEnum: string {
     case PROJECT_NOT_ALLOWED_IN_TEAM_USERS = 'Você não tem acesso aos membros deste projeto.';
     case SECTION_NOT_ALLOWED = 'Você não tem acesso a esta seção.';
     case SECTION_NOT_FOUND = 'Seção não encontrada.';
+    case SECTION_NOT_LINKED_TO_PROJECT = 'A seção não está vinculada ao projeto.';
     case TEAM_USER_NOT_BELONGS_TO_PROJECT = 'Este usuário não está vinculado ao projeto.';
     case PROJECT_NOT_ALLOWED_IN_CARD = 'Você não tem acesso aos cards deste projeto.';
     case CARD_NOT_FOUND = 'Card não encontrado.';

@@ -17,6 +17,7 @@ class Section extends Register
     const COLOR_ID   = 'color_id';
     const ICON_ID    = 'icon_id';
     const NAME       = 'name';
+    const SECTION_ORDER = 'section_order';
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -33,6 +34,7 @@ class Section extends Register
         self::COLOR_ID,
         self::ICON_ID,
         self::NAME,
+        self::SECTION_ORDER,
     ];
 
     public function project(): BelongsTo

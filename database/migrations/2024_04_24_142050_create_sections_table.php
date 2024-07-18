@@ -18,6 +18,7 @@ return new class extends Migration
             $table->uuid('color_id');
             $table->uuid('icon_id');
             $table->string('name');
+            $table->bigInteger('section_order');
             $table->uuid('creator_id')->nullable();
             $table->uuid('updater_id')->nullable();
             $table->timestamp('created_at')->default(DB::raw('now()'));

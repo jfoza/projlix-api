@@ -8,12 +8,14 @@ use App\Features\Project\Sections\Contracts\SectionsRepositoryInterface;
 use App\Features\Project\Sections\DTO\SectionsDTO;
 use App\Features\Project\Sections\DTO\SectionsFiltersDTO;
 use App\Features\Project\Sections\Models\Section;
+use App\Features\Project\Sections\Routines\SectionReordering;
 use Illuminate\Support\Collection;
 
 class SectionsRepository implements SectionsRepositoryInterface
 {
     public function __construct(
         private readonly Section $section,
+        private readonly SectionReordering $sectionReordering,
     ) {}
 
     public function findAll(SectionsFiltersDTO $sectionsFiltersDTO): Collection
@@ -40,22 +42,24 @@ class SectionsRepository implements SectionsRepositoryInterface
                         $sectionsFiltersDTO->projectUniqueName
                     )
                 )
+                ->orderBy(Section::SECTION_ORDER, 'ASC')
                 ->get()
         );
     }
 
     public function findById(string $id): ?object
     {
-        return Section::where(Section::ID, $id)->first();
+        return Section::with(['project'])->where(Section::ID, $id)->first();
     }
 
     public function create(SectionsDTO $sectionsDTO): object
     {
         return $this->section->create([
-            Section::PROJECT_ID => $sectionsDTO->projectId,
-            Section::COLOR_ID   => $sectionsDTO->colorId,
-            Section::ICON_ID    => $sectionsDTO->iconId,
-            Section::NAME       => $sectionsDTO->name,
+            Section::PROJECT_ID    => $sectionsDTO->projectId,
+            Section::COLOR_ID      => $sectionsDTO->colorId,
+            Section::ICON_ID       => $sectionsDTO->iconId,
+            Section::NAME          => $sectionsDTO->name,
+            Section::SECTION_ORDER => Section::max(Section::SECTION_ORDER) + 1,
         ]);
     }
 
@@ -76,5 +80,16 @@ class SectionsRepository implements SectionsRepositoryInterface
     public function remove(string $id): void
     {
         $this->section->where(Section::ID, $id)->delete();
+    }
+
+    public function reorderSection(string $sectionId, int $newOrder, string $projectId): void
+    {
+        $this
+            ->sectionReordering
+            ->setSectionId($sectionId)
+            ->setNewOrder($newOrder)
+            ->setProjectId($projectId);
+
+        $this->sectionReordering->execute();
     }
 }

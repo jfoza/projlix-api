@@ -5,6 +5,8 @@ namespace App\Features\Project\Sections\Business;
 
 use App\Exceptions\AppException;
 use App\Features\Base\Business\Business;
+use App\Features\Project\Projects\Contracts\ProjectsRepositoryInterface;
+use App\Features\Project\Projects\Validations\ProjectsValidations;
 use App\Features\Project\Sections\Contracts\FindAllSectionsBusinessInterface;
 use App\Features\Project\Sections\Contracts\SectionsRepositoryInterface;
 use App\Features\Project\Sections\DTO\SectionsFiltersDTO;
@@ -16,9 +18,11 @@ use Symfony\Component\HttpFoundation\Response;
 class FindAllSectionsBusiness extends Business implements FindAllSectionsBusinessInterface
 {
     private SectionsFiltersDTO $sectionsFiltersDTO;
+    private ?object $project;
 
     public function __construct(
-        private readonly SectionsRepositoryInterface $sectionsRepository
+        private readonly SectionsRepositoryInterface $sectionsRepository,
+        private readonly ProjectsRepositoryInterface $projectsRepository,
     ) {}
 
     /**
@@ -34,19 +38,19 @@ class FindAllSectionsBusiness extends Business implements FindAllSectionsBusines
 
         return match (true)
         {
-            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_VIEW->value),
-            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_VIEW->value),
-                => $this->findByAdminMasterAndProjectManager(),
+            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_VIEW->value)
+                => $this->findByAdminMaster(),
 
+            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_VIEW->value),
             $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_VIEW->value),
             $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MEMBER_VIEW->value)
-                => $this->findByTeamLeaderAndProjectMember(),
+                => $this->findByProfileRule(),
 
             default => $policy->dispatchForbiddenError()
         };
     }
 
-    private function findByAdminMasterAndProjectManager(): Collection
+    private function findByAdminMaster(): Collection
     {
         return $this->sectionsRepository->findAll($this->sectionsFiltersDTO);
     }
@@ -54,10 +58,26 @@ class FindAllSectionsBusiness extends Business implements FindAllSectionsBusines
     /**
      * @throws AppException
      */
-    private function findByTeamLeaderAndProjectMember(): Collection
+    private function findByProfileRule(): Collection
     {
+        if(isset($this->sectionsFiltersDTO->projectId))
+        {
+            $this->project = ProjectsValidations::projectExists(
+                $this->sectionsFiltersDTO->projectId,
+                $this->projectsRepository
+            );
+        }
+
+        if($this->sectionsFiltersDTO->projectUniqueName)
+        {
+            $this->project = ProjectsValidations::projectExistsByUniqueName(
+                $this->sectionsFiltersDTO->projectUniqueName,
+                $this->projectsRepository
+            );
+        }
+
         $this->canAccessProjects(
-            [$this->sectionsFiltersDTO->projectId],
+            [$this->project->id],
             MessagesEnum::PROJECT_NOT_ALLOWED_IN_SECTION->value
         );
 

@@ -95,6 +95,11 @@ class ProjectsRepository implements ProjectsRepositoryInterface
         return Project::where(Project::NAME, $name)->first();
     }
 
+    public function findByUniqueName(string $uniqueName): ?object
+    {
+        return Project::where(Project::UNIQUE_NAME, $uniqueName)->first();
+    }
+
     public function create(ProjectDTO $projectDTO): object
     {
         return $this->project->create([

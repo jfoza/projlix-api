@@ -14,7 +14,7 @@ class SectionsFiltersRequest extends FormRequest
     {
         return [
             'projectId'         => ['nullable', 'string', new Uuid4Rule],
-            'projectUniqueName' => ['nullable', 'string', new Uuid4Rule],
+            'projectUniqueName' => ['nullable', 'string'],
         ];
     }
 
