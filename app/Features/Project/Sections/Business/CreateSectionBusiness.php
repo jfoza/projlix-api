@@ -38,11 +38,11 @@ class CreateSectionBusiness extends Business implements CreateSectionBusinessInt
         $policy = $this->getPolicy();
 
         return match (true) {
-            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_INSERT->value),
-            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_INSERT->value)
-                => $this->createByAdminMasterAndProjectManager(),
+            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_INSERT->value)
+                => $this->createByAdminMaster(),
 
-            $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_INSERT->value) => $this->createByTeamLeader(),
+            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_INSERT->value),
+            $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_INSERT->value) => $this->createByProfileRules(),
 
             default => $policy->dispatchForbiddenError(),
         };
@@ -51,7 +51,7 @@ class CreateSectionBusiness extends Business implements CreateSectionBusinessInt
     /**
      * @throws AppException
      */
-    private function createByAdminMasterAndProjectManager(): object
+    private function createByAdminMaster(): object
     {
         $this->handleValidations();
 
@@ -61,7 +61,7 @@ class CreateSectionBusiness extends Business implements CreateSectionBusinessInt
     /**
      * @throws AppException
      */
-    private function createByTeamLeader(): object
+    private function createByProfileRules(): object
     {
         $this->handleValidations();
 

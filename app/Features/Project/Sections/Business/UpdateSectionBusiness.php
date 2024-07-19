@@ -38,11 +38,10 @@ class UpdateSectionBusiness extends Business implements UpdateSectionBusinessInt
         $policy = $this->getPolicy();
 
         return match (true) {
-            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_UPDATE->value),
-            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_UPDATE->value)
-                => $this->updateByAdminMasterAndProjectManager(),
+            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_UPDATE->value) => $this->updateByAdminMaster(),
 
-            $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_UPDATE->value) => $this->updateByTeamLeader(),
+            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_UPDATE->value),
+            $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_UPDATE->value) => $this->updateByProfileRule(),
 
             default => $policy->dispatchForbiddenError(),
         };
@@ -51,7 +50,7 @@ class UpdateSectionBusiness extends Business implements UpdateSectionBusinessInt
     /**
      * @throws AppException
      */
-    private function updateByAdminMasterAndProjectManager(): object
+    private function updateByAdminMaster(): object
     {
         $this->handleValidations();
 
@@ -61,7 +60,7 @@ class UpdateSectionBusiness extends Business implements UpdateSectionBusinessInt
     /**
      * @throws AppException
      */
-    private function updateByTeamLeader(): object
+    private function updateByProfileRule(): object
     {
         $this->handleValidations();
 

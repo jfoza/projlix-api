@@ -49,7 +49,7 @@ class SectionsRepository implements SectionsRepositoryInterface
 
     public function findById(string $id): ?object
     {
-        return Section::with(['project'])->where(Section::ID, $id)->first();
+        return Section::with(['project', 'icon', 'color'])->where(Section::ID, $id)->first();
     }
 
     public function create(SectionsDTO $sectionsDTO): object

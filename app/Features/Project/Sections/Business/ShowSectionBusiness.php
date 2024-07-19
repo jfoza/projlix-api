@@ -26,13 +26,12 @@ class ShowSectionBusiness extends Business implements ShowSectionBusinessInterfa
 
         return match (true)
         {
-            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_VIEW->value),
-            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_VIEW->value),
-                => $this->findByAdminMasterAndProjectManager($id),
+            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_VIEW->value) => $this->findByAdminMaster($id),
 
+            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_VIEW->value),
             $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_VIEW->value),
             $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MEMBER_VIEW->value)
-                => $this->findByTeamLeaderAndProjectMember($id),
+                => $this->findByProfileRule($id),
 
             default => $policy->dispatchForbiddenError()
         };
@@ -41,7 +40,7 @@ class ShowSectionBusiness extends Business implements ShowSectionBusinessInterfa
     /**
      * @throws AppException
      */
-    private function findByAdminMasterAndProjectManager(string $id): object
+    private function findByAdminMaster(string $id): object
     {
         return SectionsValidations::sectionExists(
             $id,
@@ -52,7 +51,7 @@ class ShowSectionBusiness extends Business implements ShowSectionBusinessInterfa
     /**
      * @throws AppException
      */
-    private function findByTeamLeaderAndProjectMember(string $id): object
+    private function findByProfileRule(string $id): object
     {
         $result = SectionsValidations::sectionExists(
             $id,

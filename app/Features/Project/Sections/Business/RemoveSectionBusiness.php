@@ -30,12 +30,10 @@ class RemoveSectionBusiness extends Business implements RemoveSectionBusinessInt
         $policy = $this->getPolicy();
 
         match (true) {
-            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_DELETE->value),
-            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_DELETE->value),
-                => $this->removeByAdminMasterAndProjectManager(),
+            $policy->haveRule(RulesEnum::SECTIONS_ADMIN_MASTER_DELETE->value) => $this->removeByAdminMaster(),
 
-            $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_DELETE->value),
-                => $this->removeByTeamLeader(),
+            $policy->haveRule(RulesEnum::SECTIONS_PROJECT_MANAGER_DELETE->value),
+            $policy->haveRule(RulesEnum::SECTIONS_TEAM_LEADER_DELETE->value) => $this->removeByProfileRule(),
 
             default => $policy->dispatchForbiddenError()
         };
@@ -44,7 +42,7 @@ class RemoveSectionBusiness extends Business implements RemoveSectionBusinessInt
     /**
      * @throws AppException
      */
-    private function removeByAdminMasterAndProjectManager(): void
+    private function removeByAdminMaster(): void
     {
         SectionsValidations::sectionExists(
             $this->id,
@@ -57,7 +55,7 @@ class RemoveSectionBusiness extends Business implements RemoveSectionBusinessInt
     /**
      * @throws AppException
      */
-    private function removeByTeamLeader(): void
+    private function removeByProfileRule(): void
     {
         $result = SectionsValidations::sectionExists(
             $this->id,
